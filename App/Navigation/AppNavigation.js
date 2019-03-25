@@ -1,18 +1,15 @@
 import { StackNavigator } from 'react-navigation'
+import BreedsList from '../Containers/BreedsList'
 import LaunchScreen from '../Containers/LaunchScreen'
+import React from "react";
+import { Scene, Actions } from 'react-native-router-flux';
 
 import styles from './Styles/NavigationStyles'
 
-// Manifest of possible screens
-const PrimaryNav = StackNavigator({
-  LaunchScreen: { screen: LaunchScreen }
-}, {
-  // Default config for all screens
-  headerMode: 'none',
-  initialRouteName: 'LaunchScreen',
-  navigationOptions: {
-    headerStyle: styles.header
-  }
-})
+const PrimaryNav = Actions.create(
+  <Scene key="root" hideNavBar>
+    <Scene key="home" component={BreedsList} />
+  </Scene>,
+)
 
 export default PrimaryNav
