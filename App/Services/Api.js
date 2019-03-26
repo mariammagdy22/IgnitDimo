@@ -38,6 +38,7 @@ const create = (baseURL = 'https://dog.ceo/api/') => {
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
   const getAllBreeds = () => api.get('breeds/list/all')
+  const getBreedsImage = (name) => api.get(`breed/${name}/images/random`)
 
   // ------
   // STEP 3
@@ -56,7 +57,8 @@ const create = (baseURL = 'https://dog.ceo/api/') => {
     getRoot,
     getRate,
     getUser,
-    getAllBreeds
+    getAllBreeds,
+    getBreedsImage
   }
 }
 

@@ -4,12 +4,12 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  breedsListRequest: null,
-  breedsListSuccess: ['payload'],
-  breedsListFailure: null
+  breedsDetailsRequest: ['data'],
+  breedsDetailsSuccess: ['payload'],
+  breedsDetailsFailure: null
 })
 
-export const BreedsListTypes = Types
+export const BreedsDetailsTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -23,15 +23,15 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Selectors ------------- */
 
-export const BreedsListSelectors = {
+export const BreedsDetailsSelectors = {
   getData: state => state.data
 }
 
 /* ------------- Reducers ------------- */
 
 // request the data from an api
-export const request = (state, action) =>
-  state.merge({ fetching: true, payload: null })
+export const request = (state, { data }) =>
+  state.merge({ fetching: true, data, payload: null })
 
 // successful api lookup
 export const success = (state, action) => {
@@ -46,7 +46,7 @@ export const failure = state =>
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.BREEDS_LIST_REQUEST]: request,
-  [Types.BREEDS_LIST_SUCCESS]: success,
-  [Types.BREEDS_LIST_FAILURE]: failure
+  [Types.BREEDS_DETAILS_REQUEST]: request,
+  [Types.BREEDS_DETAILS_SUCCESS]: success,
+  [Types.BREEDS_DETAILS_FAILURE]: failure
 })

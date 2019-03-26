@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList,TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { BreedsListTypes } from "../Redux/BreedsListRedux";
-
+import { Actions } from "react-native-router-flux";
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 
 // Styles
@@ -15,15 +15,17 @@ class BreedsList extends React.PureComponent {
   * Usually this should come from Redux mapStateToProps
   *************************************************************/
   state = {
-    dataObjects: [
-      {title: 'First Title', description: 'First Description'},
-      {title: 'Second Title', description: 'Second Description'},
-      {title: 'Third Title', description: 'Third Description'},
-      {title: 'Fourth Title', description: 'Fourth Description'},
-      {title: 'Fifth Title', description: 'Fifth Description'},
-      {title: 'Sixth Title', description: 'Sixth Description'},
-      {title: 'Seventh Title', description: 'Seventh Description'}
-    ]
+    dataObjects: []
+  }
+
+  constructor(props){
+    super(props)
+  }
+
+  openDetails = (breed) => {
+    console.log(breed);
+    
+    
   }
 
   /* ***********************************************************
@@ -34,12 +36,11 @@ class BreedsList extends React.PureComponent {
   * e.g.
     return <MyCustomCell title={item.title} description={item.description} />
   *************************************************************/
-  renderRow ({item}) {
+  renderRow = ({item})  => {
     return (
-      <View style={styles.row}>
-        <Text style={styles.boldLabel}>{item.title}</Text>
-        <Text style={styles.label}>{item.description}</Text>
-      </View>
+      <TouchableOpacity style={styles.row} onPress={() => Actions.page() } >
+        <Text style={styles.boldLabel}>{item}</Text>
+      </TouchableOpacity>
     )
   }
 
@@ -61,7 +62,7 @@ class BreedsList extends React.PureComponent {
     <Text style={styles.label}> - Nothing to See Here - </Text>
 
   renderSeparator = () =>
-    <Text style={styles.label}> - ~~~~~ - </Text>
+    <Text style={styles.label}>===================== </Text>
 
   // The default function if no Key is provided is index
   // an identifiable key is important if you plan on
@@ -85,12 +86,16 @@ class BreedsList extends React.PureComponent {
   //   {length: ITEM_HEIGHT, offset: ITEM_HEIGHT * index, index}
   // )}
 
+  
+  componentDidMount(){
+    this.props.fetchBreeds()
+  }
   render () {
     return (
       <View style={styles.container}>
         <FlatList
           contentContainerStyle={styles.listContent}
-          data={this.state.dataObjects}
+          data={this.props.dataSource}
           renderItem={this.renderRow}
           keyExtractor={this.keyExtractor}
           initialNumToRender={this.oneScreensWorth}
@@ -104,16 +109,16 @@ class BreedsList extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({breeds}) => {  
   return {
     // ...redux state to props here
-
+    dataSource: breeds.payload
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchBreeds: () => dispatch({type:BreedsListTypes.breedsListRequest}) 
+    fetchBreeds: () => dispatch({type:BreedsListTypes.BREEDS_LIST_REQUEST}) 
   }
 }
 

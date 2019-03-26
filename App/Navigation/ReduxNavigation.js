@@ -7,6 +7,7 @@ import AppNavigation from './AppNavigation'
 
 class ReduxNavigation extends React.Component {
  
+  
   render () {
     return <AppNavigation  />
   }

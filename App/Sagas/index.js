@@ -7,11 +7,13 @@ import DebugConfig from '../Config/DebugConfig'
 
 import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
+import { BreedsListTypes } from "../Redux/BreedsListRedux";
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
+import { getBreedsList } from "./BreedsListSagas";
 
 /* ------------- API ------------- */
 
@@ -27,6 +29,9 @@ export default function * root () {
     takeLatest(StartupTypes.STARTUP, startup),
 
     // some sagas receive extra parameters in addition to an action
-    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
+    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api),
+
+    takeLatest(BreedsListTypes.BREEDS_LIST_REQUEST, getBreedsList, api)
+
   ])
 }

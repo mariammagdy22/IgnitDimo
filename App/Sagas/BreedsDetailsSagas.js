@@ -11,29 +11,22 @@
 *************************************************************/
 
 import { call, put } from 'redux-saga/effects'
-import BreedsListActions from '../Redux/BreedsListRedux'
-import R from "ramda";
-// import { BreedsListSelectors } from '../Redux/BreedsListRedux'
+import BreedsDetailsActions from '../Redux/BreedsDetailsRedux'
+// import { BreedsDetailsSelectors } from '../Redux/BreedsDetailsRedux'
 
-export function * getBreedsList (api, action) {
+export function * getBreedsDetails (api, action) {
+  const { data } = action
   // get current data from Store
-  // const currentData = yield select(BreedsListSelectors.getData)
+  // const currentData = yield select(BreedsDetailsSelectors.getData)
   // make the call to the api
-  const response = yield call(api.getAllBreeds)
+  const response = yield call(api.getbreedsDetails, data)
 
   // success?
   if (response.ok) {
     // You might need to change the response here - do this with a 'transform',
     // located in ../Transforms/. Otherwise, just pass the data back from the api.
-    let res = response.data
-    if(res.status == 'success')
-    {
-
-      yield put(BreedsListActions.breedsListSuccess(R.keys((res.message))))
-    }
-    else
-      yield put(BreedsListActions.breedsListFailure())
+    yield put(BreedsDetailsActions.breedsDetailsSuccess(response.data))
   } else {
-    yield put(BreedsListActions.breedsListFailure())
+    yield put(BreedsDetailsActions.breedsDetailsFailure())
   }
 }
